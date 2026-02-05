@@ -34,6 +34,9 @@ jobs:
           VERSION="${{ steps.release.outputs.version }}"
 
           cat > Formula/gplay.rb << 'FORMULA'
+          # typed: false
+          # frozen_string_literal: true
+
           class Gplay < Formula
             desc "CLI for Google Play Console - manage Android apps from the terminal"
             homepage "https://github.com/tamtom/play-console-cli"
