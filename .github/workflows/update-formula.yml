@@ -1,0 +1,95 @@
+name: Update Formula
+
+on:
+  repository_dispatch:
+    types: [update-formula]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get release info
+        id: release
+        run: |
+          VERSION="${{ github.event.client_payload.version }}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          # Download checksums
+          curl -sL "https://github.com/tamtom/play-console-cli/releases/download/v${VERSION}/checksums.txt" -o checksums.txt
+
+          # Extract SHA256 for each platform
+          echo "sha256_darwin_arm64=$(grep 'gplay-darwin-arm64$' checksums.txt | awk '{print $1}')" >> $GITHUB_OUTPUT
+          echo "sha256_darwin_amd64=$(grep 'gplay-darwin-amd64$' checksums.txt | awk '{print $1}')" >> $GITHUB_OUTPUT
+          echo "sha256_linux_arm64=$(grep 'gplay-linux-arm64$' checksums.txt | awk '{print $1}')" >> $GITHUB_OUTPUT
+          echo "sha256_linux_amd64=$(grep 'gplay-linux-amd64$' checksums.txt | awk '{print $1}')" >> $GITHUB_OUTPUT
+
+      - name: Update formula
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"
+
+          cat > Formula/gplay.rb << 'FORMULA'
+          class Gplay < Formula
+            desc "CLI for Google Play Console - manage Android apps from the terminal"
+            homepage "https://github.com/tamtom/play-console-cli"
+            version "VERSION_PLACEHOLDER"
+            license "MIT"
+
+            on_macos do
+              if Hardware::CPU.arm?
+                url "https://github.com/tamtom/play-console-cli/releases/download/vVERSION_PLACEHOLDER/gplay-darwin-arm64"
+                sha256 "SHA256_DARWIN_ARM64"
+
+                def install
+                  bin.install "gplay-darwin-arm64" => "gplay"
+                end
+              else
+                url "https://github.com/tamtom/play-console-cli/releases/download/vVERSION_PLACEHOLDER/gplay-darwin-amd64"
+                sha256 "SHA256_DARWIN_AMD64"
+
+                def install
+                  bin.install "gplay-darwin-amd64" => "gplay"
+                end
+              end
+            end
+
+            on_linux do
+              if Hardware::CPU.arm?
+                url "https://github.com/tamtom/play-console-cli/releases/download/vVERSION_PLACEHOLDER/gplay-linux-arm64"
+                sha256 "SHA256_LINUX_ARM64"
+
+                def install
+                  bin.install "gplay-linux-arm64" => "gplay"
+                end
+              else
+                url "https://github.com/tamtom/play-console-cli/releases/download/vVERSION_PLACEHOLDER/gplay-linux-amd64"
+                sha256 "SHA256_LINUX_AMD64"
+
+                def install
+                  bin.install "gplay-linux-amd64" => "gplay"
+                end
+              end
+            end
+
+            test do
+              assert_match version.to_s, shell_output("#{bin}/gplay version")
+            end
+          end
+          FORMULA
+
+          # Replace placeholders
+          sed -i "s/VERSION_PLACEHOLDER/${VERSION}/g" Formula/gplay.rb
+          sed -i "s/SHA256_DARWIN_ARM64/${{ steps.release.outputs.sha256_darwin_arm64 }}/g" Formula/gplay.rb
+          sed -i "s/SHA256_DARWIN_AMD64/${{ steps.release.outputs.sha256_darwin_amd64 }}/g" Formula/gplay.rb
+          sed -i "s/SHA256_LINUX_ARM64/${{ steps.release.outputs.sha256_linux_arm64 }}/g" Formula/gplay.rb
+          sed -i "s/SHA256_LINUX_AMD64/${{ steps.release.outputs.sha256_linux_amd64 }}/g" Formula/gplay.rb
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/gplay.rb
+          git commit -m "Update gplay to v${{ steps.release.outputs.version }}"
+          git push
