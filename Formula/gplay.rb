@@ -1,3 +1,6 @@
+# typed: false
+# frozen_string_literal: true
+
 class Gplay < Formula
   desc "CLI for Google Play Console - manage Android apps from the terminal"
   homepage "https://github.com/tamtom/play-console-cli"
