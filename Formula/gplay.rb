@@ -4,20 +4,20 @@
 class Gplay < Formula
   desc "CLI for Google Play Console - manage Android apps from the terminal"
   homepage "https://github.com/tamtom/play-console-cli"
-  version "0.4.5"
+  version "0.4.6"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/tamtom/play-console-cli/releases/download/v0.4.5/gplay-darwin-arm64"
-      sha256 "c4b592526c843e2b8baa76a73861c28a82dcb84ae8674e1fd50c0956748ffc24"
+      url "https://github.com/tamtom/play-console-cli/releases/download/v0.4.6/gplay-darwin-arm64"
+      sha256 "974cacef5a9a84e717495ddfefe8a724746b909e56b55dbacee44e9c78c86907"
 
       def install
         bin.install "gplay-darwin-arm64" => "gplay"
       end
     else
-      url "https://github.com/tamtom/play-console-cli/releases/download/v0.4.5/gplay-darwin-amd64"
-      sha256 "3b0869a7d2831a5dd9c96a0c16e36caca8f783795653c3984bd15e920421ed45"
+      url "https://github.com/tamtom/play-console-cli/releases/download/v0.4.6/gplay-darwin-amd64"
+      sha256 "a5671dfe25c4a7f9626c5c61ea5dc63c967c55ca0561c67dda571456b4fe2b2a"
 
       def install
         bin.install "gplay-darwin-amd64" => "gplay"
@@ -27,15 +27,15 @@ class Gplay < Formula
 
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/tamtom/play-console-cli/releases/download/v0.4.5/gplay-linux-arm64"
-      sha256 "3b38563061edb9ee173bea530c94cfe83e30037dab1479f4b0aabdc220967b60"
+      url "https://github.com/tamtom/play-console-cli/releases/download/v0.4.6/gplay-linux-arm64"
+      sha256 "e8e5865b5880f9639aca1b940ab7a49a2c27941224f094e430ef79c0e0e81bd3"
 
       def install
         bin.install "gplay-linux-arm64" => "gplay"
       end
     else
-      url "https://github.com/tamtom/play-console-cli/releases/download/v0.4.5/gplay-linux-amd64"
-      sha256 "13519efb2b02b68d18113c59a580104a2ba5da2c2d63abdbd237e1ad80685bce"
+      url "https://github.com/tamtom/play-console-cli/releases/download/v0.4.6/gplay-linux-amd64"
+      sha256 "62540eaf8822133316b83783c3fa9c586c9d63aed8c88a9c455e5872482f2d21"
 
       def install
         bin.install "gplay-linux-amd64" => "gplay"
