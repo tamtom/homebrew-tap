@@ -10,14 +10,14 @@ class Gplay < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/tamtom/play-console-cli/releases/download/v0.4.6/gplay-darwin-arm64"
-      sha256 "974cacef5a9a84e717495ddfefe8a724746b909e56b55dbacee44e9c78c86907"
+      sha256 "f61d7fcc4a18868b5e5674866a96ba04c8c67d46fc3115152bceb43cd0f97823"
 
       def install
         bin.install "gplay-darwin-arm64" => "gplay"
       end
     else
       url "https://github.com/tamtom/play-console-cli/releases/download/v0.4.6/gplay-darwin-amd64"
-      sha256 "a5671dfe25c4a7f9626c5c61ea5dc63c967c55ca0561c67dda571456b4fe2b2a"
+      sha256 "c89b5bb3b0925b2e6cff0c097aa20a201b771fb134fcc9c1ee6bc39f4f51c5f4"
 
       def install
         bin.install "gplay-darwin-amd64" => "gplay"
@@ -28,14 +28,14 @@ class Gplay < Formula
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/tamtom/play-console-cli/releases/download/v0.4.6/gplay-linux-arm64"
-      sha256 "e8e5865b5880f9639aca1b940ab7a49a2c27941224f094e430ef79c0e0e81bd3"
+      sha256 "49e8ae745a6910e21a645596fc04fa0a4a34dc4d9b036a34ea8062325fdea00d"
 
       def install
         bin.install "gplay-linux-arm64" => "gplay"
       end
     else
       url "https://github.com/tamtom/play-console-cli/releases/download/v0.4.6/gplay-linux-amd64"
-      sha256 "62540eaf8822133316b83783c3fa9c586c9d63aed8c88a9c455e5872482f2d21"
+      sha256 "02bb5d9c4bb0949496f79c0adf2bbf095030c09fc768667f59e6fb6cabf129c5"
 
       def install
         bin.install "gplay-linux-amd64" => "gplay"
